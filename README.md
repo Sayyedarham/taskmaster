@@ -1,6 +1,6 @@
 # TaskMaster — HENNGE-Aligned Full-Stack Project
 
-> **Production-grade task management system** built with Go, AWS, Terraform, Docker, and React. Designed specifically to demonstrate every skill HENNGE evaluates in Full-Stack Engineering candidates.
+> **Production-grade task management system** built with Go, AWS, Terraform, Docker, and React.
 
 ---
 
@@ -189,9 +189,9 @@ HTTP Request
 
 ---
 
-## HENNGE Checklist Alignment
+## Checklist Alignment
 
-| HENNGE Expectation | How TaskMaster Demonstrates It |
+| Expectation | How TaskMaster Demonstrates It |
 |-------------------|-------------------------------|
 | **Go proficiency** | Clean Architecture, interfaces, context usage, goroutines |
 | **TypeScript + React** | Phase 2: Type-safe frontend with modern hooks |
