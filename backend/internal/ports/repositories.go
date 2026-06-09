@@ -2,7 +2,6 @@ package ports
 
 import (
 	"context"
-
 	"taskmaster/internal/domain"
 
 	"github.com/google/uuid"
@@ -40,6 +39,4 @@ type CacheRepository interface {
 
 type WebSocketHub interface {
 	Broadcast(teamID uuid.UUID, message interface{})
-	Register(client *domain.User, conn interface{})
-	Unregister(client *domain.User)
 }

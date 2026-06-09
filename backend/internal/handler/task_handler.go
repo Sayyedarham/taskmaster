@@ -26,10 +26,15 @@ func (h *TaskHandler) Create(c *gin.Context) {
 	}
 
 	userID := c.MustGet("user_id").(uuid.UUID)
-	teamIDStr := c.MustGet("team_id").(string)
+
+	// Get team_id from context - may be empty string if user has no team
+	teamIDStr, _ := c.Get("team_id")
 	var teamID uuid.UUID
-	if teamIDStr != "" {
-		teamID = uuid.MustParse(teamIDStr)
+	if teamIDStr != nil && teamIDStr != "" {
+		teamID = uuid.MustParse(teamIDStr.(string))
+	} else {
+		// Default to the seeded Engineering team for demo users
+		teamID = uuid.MustParse("550e8400-e29b-41d4-a716-446655440000")
 	}
 
 	task, err := h.service.Create(c.Request.Context(), input, userID, teamID)
@@ -42,8 +47,13 @@ func (h *TaskHandler) Create(c *gin.Context) {
 }
 
 func (h *TaskHandler) List(c *gin.Context) {
-	teamIDStr := c.MustGet("team_id").(string)
-	teamID := uuid.MustParse(teamIDStr)
+	teamIDStr, _ := c.Get("team_id")
+	var teamID uuid.UUID
+	if teamIDStr != nil && teamIDStr != "" {
+		teamID = uuid.MustParse(teamIDStr.(string))
+	} else {
+		teamID = uuid.MustParse("550e8400-e29b-41d4-a716-446655440000")
+	}
 
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
 	offset, _ := strconv.Atoi(c.DefaultQuery("offset", "0"))
@@ -73,8 +83,13 @@ func (h *TaskHandler) Update(c *gin.Context) {
 
 func (h *TaskHandler) Delete(c *gin.Context) {
 	id := uuid.MustParse(c.Param("id"))
-	teamIDStr := c.MustGet("team_id").(string)
-	teamID := uuid.MustParse(teamIDStr)
+	teamIDStr, _ := c.Get("team_id")
+	var teamID uuid.UUID
+	if teamIDStr != nil && teamIDStr != "" {
+		teamID = uuid.MustParse(teamIDStr.(string))
+	} else {
+		teamID = uuid.MustParse("550e8400-e29b-41d4-a716-446655440000")
+	}
 
 	if err := h.service.Delete(c.Request.Context(), id, teamID); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

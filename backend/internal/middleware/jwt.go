@@ -37,9 +37,19 @@ func JWT(secret string) gin.HandlerFunc {
 			return
 		}
 
-		userID, _ := uuid.Parse(claims["sub"].(string))
+		userID, err := uuid.Parse(claims["sub"].(string))
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "invalid user id"})
+			return
+		}
+
 		role, _ := claims["role"].(string)
-		teamID, _ := claims["team_id"].(string)
+
+		// team_id may not exist in token (old tokens or users without team)
+		teamID := ""
+		if tid, ok := claims["team_id"]; ok && tid != nil {
+			teamID = tid.(string)
+		}
 
 		c.Set("user_id", userID)
 		c.Set("role", role)

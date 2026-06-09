@@ -3,8 +3,6 @@ package middleware
 import (
 	"fmt"
 	"net/http"
-	"time"
-
 	"taskmaster/internal/ports"
 
 	"github.com/gin-gonic/gin"

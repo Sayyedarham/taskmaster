@@ -3,14 +3,14 @@ package handler
 import (
 	"net/http"
 
-	"taskmaster/internal/websocket"
+	wsinternal "taskmaster/internal/websocket"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
 type WSHandler struct {
-	hub *websocket.Hub
+	hub *wsinternal.Hub
 }
 
 var upgrader = websocket.Upgrader{
@@ -19,7 +19,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func NewWSHandler(hub *websocket.Hub) *WSHandler {
+func NewWSHandler(hub *wsinternal.Hub) *WSHandler {
 	return &WSHandler{hub}
 }
 
@@ -28,9 +28,8 @@ func (h *WSHandler) Handle(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	client := &websocket.Client{Hub: h.hub, Conn: conn, Send: make(chan []byte, 256)}
+	client := &wsinternal.Client{Hub: h.hub, Conn: conn, Send: make(chan []byte, 256)}
 	client.Hub.Register(client)
-
 	go client.WritePump()
 	go client.ReadPump()
 }

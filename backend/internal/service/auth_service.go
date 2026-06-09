@@ -80,12 +80,11 @@ func (s *AuthService) Login(ctx context.Context, input LoginInput) (string, *dom
 
 func (s *AuthService) generateToken(user *domain.User) (string, error) {
 	claims := jwt.MapClaims{
-		"sub":     user.ID.String(),
-		"email":   user.Email,
-		"role":    string(user.Role),
-		"team_id": "",
-		"exp":     time.Now().Add(24 * time.Hour).Unix(),
-		"iat":     time.Now().Unix(),
+		"sub":   user.ID.String(),
+		"email": user.Email,
+		"role":  string(user.Role),
+		"exp":   time.Now().Add(24 * time.Hour).Unix(),
+		"iat":   time.Now().Unix(),
 	}
 	if user.TeamID != nil {
 		claims["team_id"] = user.TeamID.String()
