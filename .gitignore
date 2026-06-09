@@ -1,0 +1,32 @@
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# Env
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfvars
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
